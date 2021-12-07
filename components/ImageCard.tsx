@@ -1,6 +1,7 @@
 import { NextPage } from "next";
-import { TopAnimeResult, TopMangaResult, Type } from "../types";
 import Image from "next/image";
+import { TopAnimeResult, Type } from "../types/top_anime";
+import { TopMangaResult } from "../types/top_manga";
 
 interface ImageCardProps {
   res: TopAnimeResult | TopMangaResult;
