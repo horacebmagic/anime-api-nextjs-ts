@@ -119,6 +119,17 @@ const Sidebar: NextPage<SidebarProps> = ({
               </a>
             </p>
           </div>
+          <div className="mt-5">
+            <ActiveLink
+              href="/about"
+              activeClassName="px-3 border-r-2 border-indigo-500 md:px-2.5 -mx-3"
+            >
+              <span className="text-gray-400">About</span>
+            </ActiveLink>
+            <div>
+              <span className="text-xs text-gray-400">© 2021 - Anmain</span>
+            </div>
+          </div>
         </div>
       </nav>
       <div
