@@ -6,7 +6,7 @@ import Layout from "../../../components/layouts";
 import Seasonsearch from "../../../components/SeasonSearch";
 import { getSeason, seasons } from "../../../initial_data/years_seasons";
 import { BASE_URL_API } from "../../../types";
-import { AnimeSeason } from "../../../types/anime_season";
+import { JikanSeasonResV4, Rating } from "../../../types/anime_season";
 import Image from "next/image";
 
 const Index = ({
@@ -21,6 +21,8 @@ const Index = ({
     router.push(`/anime/season/${year}/${season}`);
   };
 
+  console.log(dataSeason.data);
+
   return (
     <>
       <HeadComponent
@@ -34,8 +36,8 @@ const Index = ({
         <div className="px-3">
           <Seasonsearch handleGoClick={handleGoClick} param={false} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-1 mt-1">
-            {dataSeason?.anime
-              ?.filter((anime) => anime.r18 === false)
+            {dataSeason?.data
+              ?.filter((anime) => anime.rating !== Rating.RMildNudity)
               .map((anime) => (
                 <div
                   key={anime.mal_id}
@@ -43,7 +45,7 @@ const Index = ({
                 >
                   <div className="w-2/12">
                     <Image
-                      src={anime.image_url}
+                      src={anime.images.jpg.image_url}
                       alt={anime.title}
                       width={70}
                       height={80}
@@ -68,9 +70,9 @@ const Index = ({
 
 export const getServerSideProps = async () => {
   const res = await fetch(
-    BASE_URL_API + `season/${new Date().getUTCFullYear()}/${getSeason()}`
+    BASE_URL_API + `seasons/${new Date().getUTCFullYear()}/${getSeason()}`
   );
-  const dataSeason: AnimeSeason = await res.json();
+  const dataSeason: JikanSeasonResV4 = await res.json();
 
   return {
     props: {

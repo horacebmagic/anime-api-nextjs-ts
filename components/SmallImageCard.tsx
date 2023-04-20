@@ -1,11 +1,11 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { AnimeType } from "../types";
-import { JikanResV4 } from "../types/top_anime";
-import { JikanSearchResV4, Data } from "../types/anime_search";
+import { Data } from "../types/anime_search";
+import { Data as DataSeason } from "../types/anime_season";
 
 interface SmallImageCardProps {
-  anime: Data;
+  anime: Data | DataSeason;
   animeType: AnimeType;
 }
 
@@ -34,7 +34,7 @@ const SmallImageCard: NextPage<SmallImageCardProps> = ({
             </a>
             <span className="text-xs">Score: {anime.score}</span>
             <span className="text-xs">Type: {anime.type}</span>
-            {animeType === AnimeType.AnimeSeasonResult && (
+            {animeType === AnimeType.JikanSeasonResV4 && (
               <span className="text-xs">Airing start: {anime.aired.from}</span>
             )}
             {(animeType === AnimeType.JikanSearchResV4 ||

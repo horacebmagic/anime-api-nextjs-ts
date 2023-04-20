@@ -4,7 +4,7 @@ import HeadComponent from "../../../../components/HeadComponent";
 import Layout from "../../../../components/layouts";
 import { AnimeType, BASE_URL_API, HttpResponse } from "../../../../types";
 import Image from "next/image";
-import { AnimeSeason } from "../../../../types/anime_season";
+import { JikanSeasonResV4, Rating } from "../../../../types/anime_season";
 import Seasonsearch from "../../../../components/SeasonSearch";
 import ErrorInfoComponent from "../../../../components/ErrorInfoComponent";
 import { res404 } from "../../../../initial_data/http_response";
@@ -41,17 +41,17 @@ const Season = ({
           {dataSeason?.status > 399 && (
             <ErrorInfoComponent message={dataSeason.message} />
           )}
-          {dataSeason.anime?.length === 0 && (
+          {dataSeason.data?.length === 0 && (
             <ErrorInfoComponent message={res404.message} />
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-1 mt-1">
-            {dataSeason?.anime
-              ?.filter((anime) => anime.r18 === false)
+            {dataSeason?.data
+              ?.filter((anime) => anime.rating !== Rating.RMildNudity)
               .map((anime) => (
                 <SmallImageCard
                   key={anime.mal_id}
                   anime={anime}
-                  animeType={AnimeType.AnimeSeasonResult}
+                  animeType={AnimeType.JikanSeasonResV4}
                 />
               ))}
           </div>
@@ -64,8 +64,8 @@ const Season = ({
 export const getServerSideProps = async (context: any) => {
   const { year, season } = context.query;
 
-  const res = await fetch(BASE_URL_API + `season/${year}/${season}`);
-  const dataSeason: AnimeSeason & HttpResponse = await res.json();
+  const res = await fetch(BASE_URL_API + `seasons/${year}/${season}`);
+  const dataSeason: JikanSeasonResV4 & HttpResponse = await res.json();
 
   return {
     props: {

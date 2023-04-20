@@ -1,5 +1,5 @@
 import { JikanSearchResV4 } from "./anime_search";
-import { AnimeSeasonResult } from "./anime_season";
+import { JikanSeasonResV4 } from "./anime_season";
 import { SearchAnimeByGenreResult } from "./search_anime_by_genre";
 
 export const BASE_URL_API: string = "https://api.jikan.moe/v4/";
@@ -41,13 +41,13 @@ export interface HttpResponse {
 
 export enum AnimeType {
   JikanSearchResV4 = "JikanSearchResV4",
-  AnimeSeasonResult = "AnimeSeasonResult",
+  JikanSeasonResV4 = "JikanSeasonResV4",
   SearchAnimeByGenreResult = "SearchAnimeByGenreResult",
 }
 
 export type AnimeTypeList = {
   JikanSearchResV4?: JikanSearchResV4;
-  AnimeSeasonResult?: AnimeSeasonResult;
+  JikanSeasonResV4?: JikanSeasonResV4;
   SearchAnimeByGenreResult?: SearchAnimeByGenreResult;
 };
 
