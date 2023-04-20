@@ -1,10 +1,10 @@
 import { NextPage } from "next";
 import Image from "next/image";
-import { TopAnimeResult, Type } from "../types/top_anime";
-import { TopMangaResult } from "../types/top_manga";
+import { JikanResV4 } from "../types/top_anime";
+import { Type } from "../types/";
 
 interface ImageCardProps {
-  res: TopAnimeResult | TopMangaResult;
+  res: JikanResV4;
   type: Type;
 }
 
@@ -12,21 +12,21 @@ const ImageCard: NextPage<ImageCardProps> = ({ res, type }) => {
   return (
     <>
       {res !== undefined &&
-        res?.top?.map((data) => (
-          <div key={data.mal_id} className="w-full">
+        res?.data?.map((i) => (
+          <div key={i.mal_id} className="w-full">
             <a
-              href={`/${type.toLowerCase()}/${data.mal_id}`}
+              href={`/${type.toLowerCase()}/${i.mal_id}`}
               target="_blank"
               rel="noreferrer"
             >
               <div className="truncate w-full bg-white rounded-sm mb-1 px-1 text-gray-500 shadow-sm hover:bg-indigo-500 hover:text-gray-100 cursor-pointer">
-                <span>{data.rank + ". "}</span>
-                <span>{data.title}</span>
+                <span>Rank: {i.rank + ". "}</span>
+                <span>{i.title}</span>
               </div>
             </a>
             <Image
-              src={data.image_url}
-              alt={data.title}
+              src={i.images.jpg.image_url}
+              alt={i.title}
               width={200}
               height={300}
               className="rounded-sm"

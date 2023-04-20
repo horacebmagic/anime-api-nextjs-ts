@@ -1,8 +1,8 @@
-import { AnimeSearchResult } from "./anime_search";
+import { JikanSearchResV4 } from "./anime_search";
 import { AnimeSeasonResult } from "./anime_season";
 import { SearchAnimeByGenreResult } from "./search_anime_by_genre";
 
-export const BASE_URL_API: string = "https://api.jikan.moe/v3/";
+export const BASE_URL_API: string = "https://api.jikan.moe/v4/";
 
 export enum EndpointType {
   GET_TOP_ANIME,
@@ -40,13 +40,22 @@ export interface HttpResponse {
 }
 
 export enum AnimeType {
-  AnimeSearchResult = "AnimeSearchResult",
+  JikanSearchResV4 = "JikanSearchResV4",
   AnimeSeasonResult = "AnimeSeasonResult",
   SearchAnimeByGenreResult = "SearchAnimeByGenreResult",
 }
 
 export type AnimeTypeList = {
-  AnimeSearchResult?: AnimeSearchResult;
+  JikanSearchResV4?: JikanSearchResV4;
   AnimeSeasonResult?: AnimeSeasonResult;
   SearchAnimeByGenreResult?: SearchAnimeByGenreResult;
 };
+
+export enum Type {
+  TV = "Anime",
+  Manga = "Manga",
+  Manhua = "Manhua",
+  Manhwa = "Manhwa",
+  Light = "Light",
+  Novel = "Novel",
+}

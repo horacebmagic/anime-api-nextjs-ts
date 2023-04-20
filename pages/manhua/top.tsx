@@ -4,7 +4,8 @@ import HeadComponent from "../../components/HeadComponent";
 import ImageCard from "../../components/ImageCard";
 import { BASE_URL_API, EndpointType } from "../../types";
 import { GetEndpoint } from "../../api_routes";
-import { TopMangaResult, Type } from "../../types/top_manga";
+import { JikanResV4 } from "../../types/top_anime";
+import { Type } from "../../types/";
 
 const TopManhua = ({
   dataTop,
@@ -27,9 +28,9 @@ const TopManhua = ({
 
 export const getServerSideProps = async () => {
   const res = await fetch(
-    BASE_URL_API + GetEndpoint(1, EndpointType.GET_TOP_MANHUA)
+    BASE_URL_API + GetEndpoint(EndpointType.GET_TOP_MANHUA)
   );
-  const dataTop: TopMangaResult = await res.json();
+  const dataTop: JikanResV4 = await res.json();
 
   return {
     props: {

@@ -15,7 +15,7 @@ import {
   apiroute_getAnimeByName,
 } from "../../api_routes";
 import useSWR from "swr";
-import { AnimeSearch, Rated } from "../../types/anime_search";
+import { JikanSearchResV4, Rating } from "../../types/anime_search";
 import Image from "next/image";
 import { SearchAnimeByGenre } from "../../types/search_anime_by_genre";
 import Fetcher from "../../fetchers";
@@ -36,18 +36,17 @@ const Search = () => {
   //end
 
   //request api call: anime by name
-  const searchAnimeByNameFetcher: GenericTypeFetcher<AnimeSearch> = Fetcher;
+  const searchAnimeByNameFetcher: GenericTypeFetcher<JikanSearchResV4> =
+    Fetcher;
   const {
     data: animeResultByName,
     isValidating: isValidatingSearchByName,
     error: errorSearchByName,
     mutate: mutateSearchByName,
-  } = useSWR<AnimeSearch, HttpResponse>(
+  } = useSWR<JikanSearchResV4, HttpResponse>(
     (): string | null => {
       if (submitedQuerySearch && submitedQuerySearch.length >= 3) {
-        return (
-          BASE_URL_API + apiroute_getAnimeByName(submitedQuerySearch, pageIndex)
-        );
+        return BASE_URL_API + apiroute_getAnimeByName(submitedQuerySearch);
       } else {
         return null;
       }
@@ -74,14 +73,14 @@ const Search = () => {
   //end
 
   //request api call: search anime by genre(s)
-  const searchAnimeByGenreFetcher: GenericTypeFetcher<SearchAnimeByGenre> =
+  const searchAnimeByGenreFetcher: GenericTypeFetcher<JikanSearchResV4> =
     Fetcher;
   const {
     data: animeResultByGenre,
     isValidating: isValidatingSearchByGenre,
     error: errorSearchByGenre,
     mutate: mutateSearchByGenre,
-  } = useSWR<SearchAnimeByGenre, HttpResponse>(
+  } = useSWR<JikanSearchResV4, HttpResponse>(
     (): string | null => {
       if (
         (submitedGenreFilter && !submitedQuerySearch) ||
@@ -89,11 +88,7 @@ const Search = () => {
       ) {
         return (
           BASE_URL_API +
-          apiroute_getAnimeByGenre(
-            pageIndex,
-            submitedQuerySearch,
-            submitedGenreFilter
-          )
+          apiroute_getAnimeByGenre(submitedQuerySearch, submitedGenreFilter)
         );
       } else {
         return null;
@@ -193,7 +188,7 @@ const Search = () => {
               Genres
             </button>
             {animeResultByName !== undefined &&
-              animeResultByName.last_page > 1 && (
+              animeResultByName.pagination.last_visible_page > 1 && (
                 <button
                   className="bg-white rounded-sm shadow-sm px-3 py-1 cursor-pointer hover:bg-indigo-500 hover:text-gray-100"
                   onClick={() => setPageIndex(pageIndex + 1)}
@@ -239,26 +234,26 @@ const Search = () => {
             <div>Please wait while request...</div>
           )}
           {errorMessage && <ErrorInfoComponent message={errorMessage} />}
-          {(animeResultByGenre?.results.length === 0 ||
-            animeResultByName?.results.length === 0) && (
+          {(animeResultByGenre?.data.length === 0 ||
+            animeResultByName?.data.length === 0) && (
             <ErrorInfoComponent message={res404.message} />
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-1 mt-1">
             {animeResultByGenre === undefined ? (
               <>
-                {animeResultByName?.results
-                  ?.filter((anime) => anime.rated !== Rated.Rx)
+                {animeResultByName?.data
+                  ?.filter((anime) => anime.rating !== Rating.RMildNudity)
                   .map((anime) => (
                     <SmallImageCard
                       key={anime.mal_id}
                       anime={anime}
-                      animeType={AnimeType.AnimeSearchResult}
+                      animeType={AnimeType.JikanSearchResV4}
                     />
                   ))}
               </>
             ) : (
               <>
-                {animeResultByGenre?.results?.map((anime) => (
+                {animeResultByGenre?.data?.map((anime) => (
                   <SmallImageCard
                     key={anime.mal_id}
                     anime={anime}

@@ -1,9 +1,11 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { AnimeType } from "../types";
+import { JikanResV4 } from "../types/top_anime";
+import { JikanSearchResV4, Data } from "../types/anime_search";
 
 interface SmallImageCardProps {
-  anime: any;
+  anime: Data;
   animeType: AnimeType;
 }
 
@@ -16,7 +18,7 @@ const SmallImageCard: NextPage<SmallImageCardProps> = ({
       <div className="bg-white shadow-sm rounded-sm p-1 text-sm flex flex-row items-center space-x-3">
         <div className="w-2/12">
           <Image
-            src={anime.image_url}
+            src={`` + anime.images.jpg.image_url}
             alt={anime.title}
             width={70}
             height={80}
@@ -33,13 +35,11 @@ const SmallImageCard: NextPage<SmallImageCardProps> = ({
             <span className="text-xs">Score: {anime.score}</span>
             <span className="text-xs">Type: {anime.type}</span>
             {animeType === AnimeType.AnimeSeasonResult && (
-              <span className="text-xs">
-                Airing start: {anime.airing_start}
-              </span>
+              <span className="text-xs">Airing start: {anime.aired.from}</span>
             )}
-            {(animeType === AnimeType.AnimeSearchResult ||
+            {(animeType === AnimeType.JikanSearchResV4 ||
               animeType === AnimeType.SearchAnimeByGenreResult) && (
-              <span className="text-xs">Start date: {anime.start_date}</span>
+              <span className="text-xs">Start date: {anime.aired.from}</span>
             )}
           </div>
         </div>
