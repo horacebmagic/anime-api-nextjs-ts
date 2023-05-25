@@ -25,7 +25,7 @@ export const GetEndpoint = (
 //https://api.jikan.moe/v4/anime?q=sword&order_by=popularity&genre=action,fantasy&sort=asc&sfw
 
 export const apiroute_getSingleAnime = (id: number): string => {
-  return `anime/${id}`;
+  return `anime/${id}/full`;
 };
 
 export const apiroute_getSingleManga = (id: number): string => {
